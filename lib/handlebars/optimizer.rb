@@ -2,7 +2,7 @@ class Handlebars
   class Optimizer
     def initialize(options = {})
       @profile = options[:profile]
-      @stack = []
+      @stack = [:local]
     end
     
     def compile(exp)

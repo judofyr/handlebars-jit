@@ -24,20 +24,25 @@ class Handlebars
       @profile.updated = false
     end
     
-    def render(ctx)
+    def render(*args)
       recompile
-      render(ctx)
+      render(*args)
     end
     
     def recompile
       compiled = <<-EOF
-        def render(ctx)
+        def render(ctx, local)
           if @profile.updated
             optimize
             recompile
-            render(ctx)
+            render(ctx, local)
           else
-            #{compile}
+            begin
+              ctx.push(:local, local)
+              #{compile}
+            ensure
+              ctx.pop
+            end
           end
         end
       EOF

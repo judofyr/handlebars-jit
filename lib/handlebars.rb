@@ -24,16 +24,12 @@ class Handlebars
           end
         end
         
-        def render(data = template, ctx = {})
-          tpl = templateify(data)
-          
-          begin
-            context.push(:local, ctx)
-            tpl.render(context)
-          ensure
-            context.pop
-          end
+        def render(data = template, local = {})
+          templateify(data).render(context, local)
         end
+        
+        alias_method :to_html, :render
+        alias_method :to_text, :render
       end
     end
   end

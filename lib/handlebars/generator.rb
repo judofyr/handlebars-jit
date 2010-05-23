@@ -2,7 +2,7 @@ class Handlebars
   class Generator < Mustache::Generator
     def initialize(options = {})
       @id = 0
-      @var_stack = ["ctx.base", "ctx.mustache"]
+      @var_stack = ["local", "ctx.base", "ctx.mustache"]
     end
     
     def tmpid
