@@ -15,7 +15,13 @@ class Handlebars
     end
     
     def tokens
-      @tokens ||= super
+      @tokens ||= (@source_tokens = super)
+    end
+    
+    def reset
+      @tokens = @source_tokens
+      @profile.clear
+      @profile.updated = true
     end
     
     def optimize
