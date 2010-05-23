@@ -124,7 +124,9 @@ class Handlebars
         end
       end
       
-      yield if v.nil? || v == false || v.respond_to?(:empty?) && v.empty?
+      if v.nil? || v == false || v.respond_to?(:empty?) && v.empty?
+        ctx.stack(name) { yield }
+      end
     end
   end
 end
