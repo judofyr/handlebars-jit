@@ -2,7 +2,6 @@ class Handlebars
   class Generator < Mustache::Generator
     def initialize(options = {})
       @id = 0
-      @stack = []
       @var_stack = ["ctx.base", "ctx.mustache"]
     end
     
@@ -99,9 +98,6 @@ class Handlebars
       end
     end
     
-    def on_compiled_partial(name)
-    end
-    
     def on_compiled_etag(name, idx, type)
       ev("CGI.escapeHTML(#{compiled_var(name, idx, type)}.to_s)")
     end
@@ -111,7 +107,6 @@ class Handlebars
     end
     
     def compiled_var(name, idx, type)
-      #p [name, idx, @var_stack]
       prefix = case type
       when :string
         "[#{name.to_s.inspect}]"
@@ -129,15 +124,9 @@ class Handlebars
     def compile_under(name, code, thing = nil)
       var = tmpid()
       @var_stack.unshift(var.to_s)
-      @stack.unshift(name.to_sym)
       [compile(code), var]
     ensure
       @var_stack.shift
-      @stack.shift
-    end
-    
-    def args(name)
-      [name.to_sym, *@stack].inspect[1..-2]
     end
   end
 end
