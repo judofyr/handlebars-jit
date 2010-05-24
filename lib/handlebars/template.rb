@@ -116,6 +116,8 @@ class Handlebars
       case v = fetch_and_profile(ctx, name)
       when true, false
         append(ctx, name, :boolean)
+      when Proc
+        append(ctx, name, :proc)
       else
         if v.is_a?(Array)
           append(ctx, name, :array)
